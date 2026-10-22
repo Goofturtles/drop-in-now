@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#ffffff">
+  <title>Drop-ins · Drop-in Now</title>
+  <meta name="description" content="Every City of Mississauga drop-in happening now and later today.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="app.css?v=8">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+</head>
+<body>
+  <!-- desktop: Apple's desktop global bar + sub-nav, with the quick views as tabs -->
+  <header class="dtop">
+    <div class="dtop-in">
+      <a class="dlogo" href="./"><img src="icon.svg" alt="" width="26" height="26">Drop-in Now</a>
+      <h1 class="dtitle">Drop-ins in Mississauga</h1>
+      <nav class="dnav" aria-label="Quick views">
+        <button type="button" class="dtab" data-tab="now">Now</button>
+        <button type="button" class="dtab" data-tab="today">Today</button>
+        <button type="button" class="dtab" data-tab="teens">Teens</button>
+        <button type="button" class="dtab" data-tab="free">Free</button>
+      </nav>
+    </div>
+  </header>
+
+  <header class="bar" id="bar">
+    <a class="glass round" href="./" aria-label="Back to home">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+    </a>
+    <h1 class="bar-title">Drop-ins</h1>
+    <button class="glass pill" id="openFilter" type="button">Filter</button>
+  </header>
+
+  <div class="band">
+    <div class="band-in">
+      <nav class="week" aria-label="Pick a day">
+        <div class="week-dot" id="weekDot" aria-hidden="true"></div>
+        <div class="week-row" id="days"></div>
+      </nav>
+      <p class="summary" id="summary"></p>
+    </div>
+  </div>
+
+  <div class="layout">
+  <aside class="side" id="side" aria-labelledby="sideTitle">
+    <div class="side-head"><h2 id="sideTitle">Filters</h2><button type="button" class="link" data-reset>Reset</button></div>
+  </aside>
+  <main class="page">
+
+    <section class="feed" aria-busy="true" id="feed">
+      <div class="skeleton" aria-hidden="true"><i></i><b></b><b></b></div>
+    </section>
+    <p class="fresh" id="fresh"></p>
+    <p class="sr" id="status" role="status"></p>
+  </main>
+  </div>
+
+  <nav class="tabs" aria-label="Quick views">
+    <div class="tabs-bar glass">
+      <span class="tab-pill" id="tabPill" aria-hidden="true"></span>
+      <button type="button" class="tab" data-tab="now">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>Now</button>
+      <button type="button" class="tab" data-tab="today">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>Today</button>
+      <button type="button" class="tab" data-tab="teens">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c3 3.2 3 13.8 0 17M12 3.5c-3 3.2-3 13.8 0 17"/></svg>Teens</button>
+      <button type="button" class="tab" data-tab="free">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12.5 12.5 20a2 2 0 0 1-2.8 0L4 14.3V4h10.3l5.7 5.7a2 2 0 0 1 0 2.8Z"/><circle cx="8.5" cy="8.5" r="1.5"/></svg>Free</button>
+    </div>
+    <button type="button" class="glass search" id="openFilter2" aria-label="Filters">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.4-4.4"/></svg>
+    </button>
+  </nav>
+
+  <!-- Filter sheet -->
+  <div class="scrim" id="scrim" hidden></div>
+  <section class="sheet filter" id="filter" role="dialog" aria-modal="true" aria-labelledby="filterTitle" hidden>
+    <div class="grab" aria-hidden="true"></div>
+    <div class="sheet-head">
+      <h2 id="filterTitle">Filter</h2>
+      <button type="button" class="link" id="resetFilter">Reset</button>
+    </div>
+    <div class="fbody" id="fbody">
+    <h3 class="label">When</h3>
+    <div class="seg" id="when" role="group" aria-label="When"></div>
+    <h3 class="label">Activity</h3>
+    <div class="chips" id="acts" role="group" aria-label="Activity"></div>
+    <h3 class="label">Age</h3>
+    <div class="seg wrap" id="ages" role="group" aria-label="Age"></div>
+    <h3 class="label">Near</h3>
+    <div class="row">
+      <select id="near" aria-label="Near"></select>
+      <button type="button" class="switch" id="free" role="switch" aria-checked="false"><span>Free only</span><i aria-hidden="true"></i></button>
+    </div>
+    </div>
+    <button type="button" class="cta" id="doneFilter">Show drop-ins</button>
+  </section>
+
+  <!-- Session detail -->
+  <section class="sheet detail" id="detail" role="dialog" aria-modal="true" aria-labelledby="dTitle" hidden>
+    <button type="button" class="glass round close" id="closeDetail" aria-label="Close">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+    <div class="d-scroll">
+    <div class="d-photo"><img id="dImg" alt=""></div>
+    <div class="d-body">
+      <h2 class="d-title" id="dTitle"></h2>
+      <a class="d-place" id="dPlace" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 3.5 3.5 10.6l7.4 2.5 2.5 7.4 7.1-17Z"/></svg><span></span></a>
+      <div class="d-box" id="dBox"></div>
+      <p class="d-more" id="dMore"></p>
+      <a class="cta" id="dSignup" target="_blank" rel="noopener">See it on the City's site</a>
+      <p class="d-desc" id="dDesc"></p>
+      <p class="d-addr" id="dAddr"></p>
+      <a class="d-link" id="dDirections" target="_blank" rel="noopener">Get directions <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+      <a class="d-link" id="dCall">Call the centre</a>
+      <button type="button" class="d-link share" id="dShare">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7.5 7.5 12 3l4.5 4.5M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg>Spread the word</button>
+      <p class="d-note">Times come from the City of Mississauga's drop-in calendar. Plans can change, so call ahead if you're not sure. Not an official City site.</p>
+    </div>
+    </div>
+  </section>
+
+  <script src="app.js?v=8"></script>
+</body>
+</html>

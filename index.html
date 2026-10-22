@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Drop-in Now · Just show up and play</title>
+  <meta name="description" content="Every free and cheap drop-in at Mississauga's community centres (basketball, swim, skate, badminton and more), happening now, near you.">
+  <meta name="theme-color" content="#FCF5EB">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="landing.css?v=5">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+</head>
+<body>
+  <header class="nav" id="nav">
+    <div class="wrap nav-in">
+      <a class="logo" href="./" aria-label="Drop-in Now home">
+        <img src="icon.svg" alt="" width="30" height="30"><span>Drop-in Now</span>
+      </a>
+      <nav class="links" aria-label="Main">
+        <a href="#how">How it works</a>
+        <a href="#free">Free for teens</a>
+        <a href="#near">Near you</a>
+        <a href="#today">On now</a>
+      </nav>
+      <div class="nav-cta">
+        <a class="btn ghost" href="app.html">Open the app <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></a>
+        <a class="btn solid" href="app.html">See what's on <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- hero -->
+    <section class="hero">
+      <div class="hero-card">
+        <img class="hero-img" src="img/34197287-1600.jpg" srcset="img/34197287-800.jpg 800w, img/34197287-1600.jpg 1600w" sizes="(max-width: 820px) 100vw, 1400px" fetchpriority="high" alt="Teenagers playing a game of basketball in a school gym">
+        <div class="hero-shade" aria-hidden="true"></div>
+        <div class="hero-copy">
+          <h1 class="in" style="--d:0">Just show up</h1>
+          <p class="in" style="--d:1">Every free and cheap drop-in at Mississauga's community centres, happening right now and near you.</p>
+          <a class="btn solid big in" style="--d:2" href="app.html">See what's on <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </div>
+        <div class="hero-ui" aria-hidden="true">
+          <div class="pop event" style="--d:4">
+            <span class="cal"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M4 10h16M9 3v4M15 3v4"/></svg></span>
+            <span class="ev-t" id="heroEvent">Youth Basketball</span>
+            <span class="faces"><i style="--p:url(img/19802254-160.jpg)"></i><i style="--p:url(img/17910791-160.jpg)"></i><i style="--p:url(img/16933877-160.jpg)"></i><i style="--p:url(img/13594616-160.jpg)"></i><b>&amp; 9 others</b></span>
+          </div>
+          <div class="pop join" style="--d:5"><svg viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg>I'm in</div>
+          <div class="pop bubble me" style="--d:6"><span id="heroAsk">Ball after school?</span><small>3:12 <svg viewBox="0 0 24 24"><path d="M2 13l4 4L16 7M10 17l1 1L22 7"/></svg></small></div>
+          <div class="pop bubble them" style="--d:7">
+            <i class="ava" style="--p:url(img/19802254-160.jpg)"></i>
+            <b>Maya</b><span id="heroReply">See you at the gym. Ready when you are!</span><small>3:14</small>
+            <span class="reacts"><em class="r1"></em><em class="r2"></em><em class="r3"></em></span>
+          </div>
+        </div>
+      </div>
+      <p class="foot-note">* Times come from the City of Mississauga's own drop-in calendar, refreshed every morning.</p>
+    </section>
+
+    <div class="flow wrap reveal" aria-hidden="true">
+      <svg viewBox="0 0 1094 120" preserveAspectRatio="none"><defs><linearGradient id="wireG" x1="0" x2="1"><stop offset="0" stop-color="#ffc2dc"/><stop offset=".5" stop-color="#ff7a2f"/><stop offset="1" stop-color="#ffc2dc"/></linearGradient></defs>
+        <path class="wire" pathLength="1" d="M0 40 H 330 C 370 40 360 92 400 92 H 700 C 740 92 730 40 770 40 H 1094"/></svg>
+      <span class="ring" style="left:16%;top:40px;--d:1"><img src="img/19802254-160.jpg" alt=""></span>
+      <span class="ring" style="left:46%;top:92px;--d:2"><img src="img/17910791-160.jpg" alt=""></span>
+      <span class="ring icon" style="left:51%;top:92px;--d:3"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3v18M5.6 5.6c2.6 2.6 2.6 10.2 0 12.8M18.4 5.6c-2.6 2.6-2.6 10.2 0 12.8"/></svg></span>
+      <span class="ring" style="left:84%;top:40px;--d:4"><img src="img/13594616-160.jpg" alt=""></span>
+    </div>
+
+    <!-- feature: the app -->
+    <section class="split" id="how">
+      <div class="wrap split-in">
+        <div class="media reveal">
+          <div class="comp comp-phone">
+            <div class="glow g1" aria-hidden="true"></div>
+            <div class="phone">
+              <iframe src="app.html" title="Drop-in Now app, live" loading="lazy"></iframe>
+            </div>
+            <div class="ui float c1" style="--f:0" aria-hidden="true"><span class="tile t1"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3v18M5.6 5.6c2.6 2.6 2.6 10.2 0 12.8M18.4 5.6c-2.6 2.6-2.6 10.2 0 12.8"/></svg></span><span><b>Basketball</b><small id="cBall">Pickup games all week</small></span></div>
+            <div class="ui float c2" style="--f:1" aria-hidden="true"><span class="tile t2"><svg viewBox="0 0 24 24"><path d="M2 16c2 0 2-1.5 4-1.5S8 16 10 16s2-1.5 4-1.5 2 1.5 4 1.5 2-1.5 4-1.5M2 20c2 0 2-1.5 4-1.5S8 20 10 20s2-1.5 4-1.5 2 1.5 4 1.5 2-1.5 4-1.5"/><circle cx="16" cy="6" r="2"/><path d="m7 13 4-5 3 3"/></svg></span><span><b>Swim</b><small id="cSwim">Lanes and leisure swims</small></span></div>
+          </div>
+        </div>
+        <div class="copy reveal">
+          <h2>Everything that's on, in one list</h2>
+          <p>Basketball, swimming, skating, badminton, pickleball and more, from all 21 city places. See what's on now, later today or any day this week.</p>
+          <a class="more" href="app.html">Try it <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- statement with floating hellos -->
+    <section class="statement" aria-labelledby="stmt">
+      <div class="floaters" aria-hidden="true" id="floaters"></div>
+      <h2 id="stmt" class="wrap reveal">With every drop-in in one place, you can stop guessing, skip the wasted trip and just go play, in Malton, Meadowvale, Clarkson or anywhere in between.</h2>
+    </section>
+
+    <!-- free for teens -->
+    <section class="split" id="free">
+      <div class="wrap split-in rev">
+        <div class="copy reveal">
+          <h2>Free after school for ages 10–17</h2>
+          <p>Sauga At Play is the City's free drop-in for youth: basketball, volleyball, badminton, swimming and a chill zone to hang out. Tap Teens and Free to see only those.</p>
+          <a class="more" href="app.html">See free drop-ins <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></a>
+        </div>
+        <div class="media reveal">
+          <div class="comp comp-free">
+            <div class="glow g2" aria-hidden="true"></div>
+            <svg class="wires" viewBox="0 0 530 560" aria-hidden="true"><path class="wire" pathLength="1" d="M34 64 V 486 H 120"/><path class="wire" pathLength="1" d="M330 120 H 420 C 450 120 450 150 450 180 V 300"/></svg>
+            <span class="ring" style="left:34px;top:64px;--d:1"><img src="img/9657249-160.jpg" alt=""></span>
+            <div class="ui pillcard float" style="--f:0" aria-hidden="true"><span class="tile t3"><svg viewBox="0 0 24 24"><path d="M20 12.5 12.5 20a2 2 0 0 1-2.8 0L4 14.3V4h10.3l5.7 5.7a2 2 0 0 1 0 2.8Z"/><circle cx="8.5" cy="8.5" r="1.5"/></svg></span><b>Sauga At Play</b><em>Free</em></div>
+            <figure class="photo p-free"><img loading="lazy" src="img/6767330-1400.jpg" alt="Three teenage girls in sports clothes on an indoor court"></figure>
+            <div class="ui list float" style="--f:1" aria-hidden="true">
+              <p class="list-h">Next free drop-ins</p>
+              <div id="freeRows"><span class="row"><i></i>Youth basketball<small>After school</small></span><span class="row"><i></i>Youth volleyball<small>After school</small></span><span class="row"><i></i>Chill zone<small>After school</small></span></div>
+            </div>
+            <div class="ui chipcard float c-free" style="--f:2" aria-hidden="true"><span class="tile t1"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span><span><b id="freeCount">Free drop-ins this week</b><small>Ages 10–17</small></span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- near you -->
+    <section class="split" id="near">
+      <div class="wrap split-in">
+        <div class="media reveal">
+          <div class="comp comp-near">
+            <div class="glow g3" aria-hidden="true"></div>
+            <figure class="photo p-wide"><img loading="lazy" src="img/6255938-1400.jpg" alt="A teenager on a couch scrolling on a phone"></figure>
+            <svg class="wires" viewBox="0 0 530 460" aria-hidden="true"><path class="wire" pathLength="1" d="M60 380 V 432 H 290"/></svg>
+            <div class="ui list near-card float" style="--f:0" aria-hidden="true">
+              <p class="list-h"><span class="tile t2 sm"><svg viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg></span><span id="nearHead">Closest first</span></p>
+              <div id="nearRows"><span class="row"><i></i>Your community centre<small>0.0 km</small></span></div>
+            </div>
+            <div class="pop bubble me float-b" style="--d:1"><span id="nearBubble">Next drop-in near you</span><small>now</small></div>
+          </div>
+        </div>
+        <div class="copy reveal">
+          <h2>Closest first, then go</h2>
+          <p>Share your location or pick your community centre, and Drop-in Now sorts by distance. One tap gets walking directions, the City's listing or the centre's phone number.</p>
+          <a class="more" href="app.html">Find one near you <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- dark: always current -->
+    <section class="dark" id="fresh">
+      <div class="wrap split-in">
+        <div class="media reveal">
+          <div class="term">
+            <p class="scramble" id="scramble" aria-hidden="true">6:30 PM</p>
+            <div class="compose"><span class="smile"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8.5 14.5a4.5 4.5 0 0 0 7 0M9 9.5h.01M15 9.5h.01"/></svg></span><span class="typed" id="typed"></span><span class="send"><svg viewBox="0 0 24 24"><path d="M4 12l16-8-6 16-2.5-6.5L4 12Z"/></svg></span></div>
+          </div>
+        </div>
+        <div class="copy reveal">
+          <h2>Always <span class="hl">up to date</span></h2>
+          <p>Every morning, Drop-in Now re-reads the City of Mississauga's own drop-in calendar, so the times you see are the times the City has. If anything looks old, the app tells you.</p>
+          <a class="more light" href="https://anc.ca.apm.activecommunities.com/activemississauga/calendars" target="_blank" rel="noopener">See the City's calendar <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- every centre -->
+    <section class="split">
+      <div class="wrap split-in rev">
+        <div class="copy reveal">
+          <h2>21 places, one list</h2>
+          <p id="centresP">Community centres, pools and arenas across the city, from Malton to Clarkson. Swim lanes, public skates, pickup games and fitness classes, all in one place.</p>
+          <a class="more" href="app.html">Browse every drop-in <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></a>
+        </div>
+        <div class="media reveal">
+          <div class="comp comp-pool">
+            <div class="glow g4" aria-hidden="true"></div>
+            <figure class="photo p-wide"><img loading="lazy" src="img/261185-1400.jpg" alt="Swimming pool lanes seen from above"></figure>
+            <div class="ui chipcard float c-pool" style="--f:1" aria-hidden="true"><span class="tile t2"><svg viewBox="0 0 24 24"><path d="M2 16c2 0 2-1.5 4-1.5S8 16 10 16s2-1.5 4-1.5 2 1.5 4 1.5 2-1.5 4-1.5M2 20c2 0 2-1.5 4-1.5S8 20 10 20s2-1.5 4-1.5 2 1.5 4 1.5 2-1.5 4-1.5"/><circle cx="16" cy="6" r="2"/><path d="m7 13 4-5 3 3"/></svg></span><span><b>Lane swim</b><small><span id="poolBubble">Lane swim tonight</span> · <span id="poolWhen">today</span></small></span></div>
+            <div class="ui stat float" style="--f:2" aria-hidden="true"><b id="statCount">2,452</b><small>drop-ins in the next 2 weeks</small></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- share -->
+    <section class="split">
+      <div class="wrap split-in">
+        <div class="media reveal">
+          <div class="comp comp-share">
+            <div class="glow g5" aria-hidden="true"></div>
+            <figure class="photo p-wide"><img loading="lazy" src="img/3764547-1400.jpg" alt="Three friends laughing together on a couch"></figure>
+            <svg class="wires" viewBox="0 0 530 460" aria-hidden="true"><path class="wire" pathLength="1" d="M470 90 V 24 H 330"/></svg>
+            <div class="ui chipcard float c-share" style="--f:0" aria-hidden="true"><span class="tile t4"><svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg></span><span><b>Sent to the group chat</b><small>3 friends are in</small></span></div>
+            <div class="pop bubble me float-b" style="--d:1"><span id="shareBubble">Badminton tonight?</span><small>4:02</small></div>
+          </div>
+        </div>
+        <div class="copy reveal">
+          <h2>Bring your friends</h2>
+          <p>Found something good? Send it to the group chat in one tap, with the time, the place and a link, so nobody has to ask "where is it again?"</p>
+          <a class="more" href="app.html">Start a plan <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- live: on today -->
+    <section class="today" id="today">
+      <div class="wrap">
+        <div class="today-head reveal">
+          <h2>On right now</h2>
+          <p>Live from the City's calendar. These are real.</p>
+        </div>
+        <div class="today-cards" id="todayCards"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap foot-in">
+      <a class="logo light" href="./"><img src="icon.svg" alt="" width="30" height="30"><span>Drop-in Now</span></a>
+      <div class="cols">
+        <div><h3>Use it</h3><a href="app.html">Open the app</a><a href="#free">Free for teens</a><a href="#near">Near you</a></div>
+        <div><h3>About</h3><a href="#fresh">Where the times come from</a><a href="https://anc.ca.apm.activecommunities.com/activemississauga/calendars" target="_blank" rel="noopener">City drop-in calendar</a></div>
+      </div>
+      <a class="btn solid" href="app.html">See what's on <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </div>
+    <div class="wrap legal">
+      <p>2026 © Drop-in Now · Built for Neighborhood Hacks · Not an official City of Mississauga site. Photos from Pexels.</p>
+    </div>
+  </footer>
+
+  <script src="landing.js?v=5"></script>
+</body>
+</html>
