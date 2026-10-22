@@ -137,9 +137,12 @@
   function moveDot() {
     var b = $("days").children[state.day];
     if (!b) return;
-    var dom = b.querySelector(".dom"), wr = $("days").getBoundingClientRect(), r = dom.getBoundingClientRect();
-    $("weekDot").style.transform = "translate(" + (r.left - wr.left + 4) + "px, 0)";
+    // measured against the dot's own containing block (.week), so it lands exactly on the circle
+    var dom = b.querySelector(".dom"), box = $("weekDot").parentNode.getBoundingClientRect(), r = dom.getBoundingClientRect();
+    $("weekDot").style.transform = "translate(" + (r.left - box.left) + "px, " + (r.top - box.top) + "px)";
   }
+  // re-measure whenever the strip changes size (scrollbar appearing, fonts loading, window resize)
+  if (window.ResizeObserver) new ResizeObserver(function () { moveDot(); }).observe($("days"));
 
   function summary() {
     var a = AGES.find(function (x) { return x[0] === state.age; });

@@ -81,7 +81,7 @@ svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width:
 }
 .day[aria-pressed="true"] .dom { color: #fff; font-weight: 600; }
 .week-dot {
-  position: absolute; left: 0; top: 25px; width: 40px; height: 40px; border-radius: 50%;
+  position: absolute; left: 0; top: 0; width: 40px; height: 40px; border-radius: 50%;
   background: var(--ink); transition: transform .5s var(--spring); will-change: transform;
 }
 .summary {
@@ -264,7 +264,7 @@ svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width:
   .day { min-height: 76px; }
   .day:not([aria-pressed="true"]) .dom { background: #fff; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06); }
   .day:hover:not([aria-pressed="true"]) .dom { background: #fff; box-shadow: 0 0 0 2px var(--hair); }
-  .week-dot { top: 25px; z-index: 0; }
+  .week-dot { z-index: 0; }
   .summary { border-bottom: 0; text-align: center; padding: 6px 0 18px; }
 
   .layout { max-width: 1320px; margin: 0 auto; padding: 0 32px; display: grid; grid-template-columns: 292px minmax(0, 1fr); gap: 56px; align-items: start; }
