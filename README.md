@@ -1,5 +1,7 @@
 # Drop-in Now
 
+**Live:** https://goofturtles.github.io/drop-in-now/ · **App:** https://goofturtles.github.io/drop-in-now/app.html
+
 Every City of Mississauga drop-in (basketball, swim, skate, badminton, volleyball and more) that's on now or starting in the next 2 hours, with the closest ones first.
 
 ## The problem, and how we know it's real
