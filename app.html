@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="app.css?v=9">
+  <link rel="stylesheet" href="app.css?v=10">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
 </head>
 <body>
@@ -17,7 +17,7 @@
   <header class="dtop">
     <div class="dtop-in">
       <a class="dlogo" href="./"><img src="icon.svg" alt="" width="26" height="26">Drop-in Now</a>
-      <h1 class="dtitle">Drop-ins in Mississauga</h1>
+      <h1 class="dtitle" id="dtitleTop">Drop-ins in Mississauga</h1>
       <nav class="dnav" aria-label="Quick views">
         <button type="button" class="dtab" data-tab="now">Now</button>
         <button type="button" class="dtab" data-tab="today">Today</button>
@@ -91,7 +91,15 @@
     <div class="chips" id="acts" role="group" aria-label="Activity"></div>
     <h3 class="label">Age</h3>
     <div class="seg wrap" id="ages" role="group" aria-label="Age"></div>
-    <h3 class="label">Near</h3>
+    <h3 class="label">Location</h3>
+    <form class="locform" id="locForm"><input id="locInput" type="search" placeholder="City, address or ZIP code" aria-label="Search for a place in North America" autocomplete="off"><button type="submit" class="chip">Go</button></form>
+    <div class="chips" id="locChips" role="group" aria-label="Quick locations">
+      <button type="button" class="chip" data-loc="dc">Washington, DC</button>
+      <button type="button" class="chip" data-loc="mi">Mississauga, ON (live times)</button>
+      <button type="button" class="chip" data-loc="me">My location</button>
+    </div>
+    <p class="locnow" id="locNow"></p>
+    <h3 class="label" id="nearLabel">Near</h3>
     <div class="row">
       <select id="near" aria-label="Near"></select>
       <button type="button" class="switch" id="free" role="switch" aria-checked="false"><span>Free only</span><i aria-hidden="true"></i></button>
@@ -125,6 +133,6 @@
     </div>
   </section>
 
-  <script src="app.js?v=9"></script>
+  <script src="app.js?v=15"></script>
 </body>
 </html>

@@ -69,7 +69,82 @@
   function origin() {
     if (state.near === "me") return here;
     var c = centers[state.near];
-    return c && c.lat != null ? { lat: c.lat, lon: c.lon } : null;
+    return c && c.lat != null ? { lat: c.lat, lon: c.lon } : (live() && place !== MISSISSAUGA ? place : null);
+  }
+
+  // ---------- location: anywhere in North America. Live drop-in times where a city publishes them (Mississauga today);
+  //            everywhere else, the courts, pools and rinks around you from OpenStreetMap ----------
+  var MISSISSAUGA = { name: "Mississauga, ON", lat: 43.589, lon: -79.644 };
+  var LIVE = [{ box: [43.47, 43.75, -79.81, -79.52] }];
+  var DEFAULT_PLACE = { name: "Columbia Heights, Washington, DC", lat: 38.9289, lon: -77.0325 };
+  var place = loadPlace(), places = null, placesKey = "", placesErr = false;
+  function loadPlace() {
+    try { var p = JSON.parse(localStorage.getItem("dropin_place") || "null"); if (p && isFinite(p.lat) && isFinite(p.lon)) return p; } catch (e) { /* private mode */ }
+    return DEFAULT_PLACE;
+  }
+  function setPlace(p) {
+    place = p; places = null; state.near = "";
+    try { localStorage.setItem("dropin_place", JSON.stringify(p)); } catch (e) { /* private mode */ }
+    render(); if (DESK.matches || !$("filter").hidden) renderFilter();
+  }
+  function live() { return LIVE.some(function (c) { return place.lat > c.box[0] && place.lat < c.box[1] && place.lon > c.box[2] && place.lon < c.box[3]; }); }
+  function short(n) { return n.split(",")[0]; }
+  // OpenStreetMap places via Photon (fast, keyless, CORS): one radius search per kind of place, classified by tag + name
+  // two requests (each up to 50 places): Photon rate-limits bursts, and its 429 replies carry no CORS header
+  var KINDS = ["osm_tag=leisure:sports_centre&osm_tag=leisure:sports_hall", "osm_tag=leisure:pitch&osm_tag=leisure:swimming_pool&osm_tag=leisure:ice_rink"];
+  var SPORTS = [ // [test(name, osm_value), label, activity chip, photo]
+    [function (n) { return /basketball/.test(n); }, "Basketball court", "basketball", 34197287],
+    [function (n, v) { return v === "swimming_pool" || /pool|aquatic|natatorium|swim/.test(n); }, "Pool", "swim", 261185],
+    [function (n, v) { return v === "ice_rink" || /\bice\b|rink|skat/.test(n); }, "Ice rink", "skate", 6469035],
+    [function (n) { return /soccer|futbol|football/.test(n); }, "Soccer field", "soccer", 13521967],
+    [function (n) { return /volleyball/.test(n); }, "Volleyball court", "volleyball", 6203568],
+    [function (n) { return /tennis|pickleball|badminton/.test(n); }, "Court", "pickleball", 17299530],
+    [function (n) { return /yoga|fitness|gym|crossfit|cycle|pilates|barre|boxing/.test(n); }, "Gym or studio", "fitness", 6339401],
+    [function (n, v) { return v === "pitch"; }, "Sports field", "all", 13521967],
+    [function () { return true; }, "Recreation centre", "all", 7156048]];
+  function fetchPlaces() {
+    var key = place.lat.toFixed(3) + "," + place.lon.toFixed(3);
+    if (placesKey === key) return;
+    placesKey = key; places = null; placesErr = false;
+    try { var hit = JSON.parse(sessionStorage.getItem("places:" + key) || "null"); if (hit) { places = hit; return; } } catch (e) { /* private mode */ }
+    Promise.all(KINDS.map(function (k) {
+      return fetch("https://photon.komoot.io/reverse?lat=" + place.lat + "&lon=" + place.lon + "&limit=50&radius=5&" + k)
+        .then(function (r) { return r.json(); }).catch(function () { return { features: [] }; });
+    })).then(function (rs) {
+      if (placesKey !== key) return;
+      var seen = {}, all = [];
+      rs.forEach(function (d) { (d.features || []).forEach(function (f) { all.push(f); }); });
+      places = all.map(function (f) {
+        var pr = f.properties || {}, name = pr.name, c = f.geometry && f.geometry.coordinates;
+        if (!name || !c || seen[name + c[0].toFixed(3)]) return null; seen[name + c[0].toFixed(3)] = 1;
+        var n = name.toLowerCase(), s = SPORTS.find(function (x) { return x[0](n, pr.osm_value); });
+        if (s[2] === "swim" && /apartment|condo|residence|club house|clubhouse/.test(n)) return null;     // private building pools
+        var addr = [pr.housenumber, pr.street].filter(Boolean).join(" ");
+        return { name: name, kind: s[1], act: s[2], photo: s[3], lat: c[1], lon: c[0], hours: addr, km: km(place, { lat: c[1], lon: c[0] }) };
+      }).filter(Boolean).sort(function (a, b) { return a.km - b.km; }).slice(0, 60);
+      placesErr = !places.length && rs.every(function (d) { return !(d.features || []).length; });
+      if (places.length) try { sessionStorage.setItem("places:" + key, JSON.stringify(places)); } catch (e) { /* full or private */ }
+      render();
+    });
+  }
+  function renderPlaces() {
+    fetchPlaces();
+    var a = act(), list = (places || []).filter(function (p) { return a.id === "all" || p.act === a.id; });
+    var html = '<h2 class="group-h">Places to play near ' + esc(short(place.name)) + "</h2>" +
+      '<p class="note">Live drop-in times aren\'t published for this area yet, so these are the courts, pools, rinks and gyms around you from OpenStreetMap. ' +
+      'Live times: <button type="button" data-loc="mi">Mississauga, ON</button>.</p>';
+    if (!places) html += '<div class="skeleton" aria-hidden="true"><i></i><b></b><b></b></div>';
+    else if (!list.length) html += '<div class="empty"><strong>' + (placesErr ? "Couldn't load places." : "Nothing found nearby.") + "</strong>" + (placesErr ? "Check your connection and try again." : "Try another activity or a bigger city.") + "</div>";
+    else html += '<div class="cards">' + list.map(function (p, i) {
+      var maps = "https://www.google.com/maps/dir/?api=1&destination=" + p.lat + "," + p.lon + "&travelmode=walking";
+      return '<a class="card" href="' + maps + '" target="_blank" rel="noopener" style="--i:' + Math.min(i, 12) + '">' +
+        '<span class="ph"><img loading="' + (i < 2 ? "eager" : "lazy") + '" alt="" src="' + PX(p.photo) + '" onload="this.classList.add(\'ok\')"></span>' +
+        '<span class="txt"><span class="col"><span class="t">' + esc(p.name) + '</span><span class="when">' + esc(p.kind) + " · " + (p.km < 10 ? p.km.toFixed(1) : Math.round(p.km)) + " km</span>" +
+        (p.hours ? '<span class="where">' + esc(p.hours) + "</span>" : "") +
+        '<span class="badges">' + (p.fee === "no" ? '<span class="badge free">Free</span>' : "") + '<span class="badge">No live times</span></span></span>' + CHEV + "</span></a>";
+    }).join("") + "</div>";
+    var feed = $("feed"); feed.setAttribute("aria-busy", places ? "false" : "true"); feed.classList.remove("quiet"); feed.innerHTML = html;
+    $("fresh").innerHTML = 'Places from <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors, found with Photon. Live drop-in times: City of Mississauga.';
   }
 
   // ---------- saved choices (this device only) ----------
@@ -139,7 +214,10 @@
     if (!b) return;
     // measured against the dot's own containing block (.week), so it lands exactly on the circle
     var dom = b.querySelector(".dom"), box = $("weekDot").parentNode.getBoundingClientRect(), r = dom.getBoundingClientRect();
-    $("weekDot").style.transform = "translate(" + (r.left - box.left) + "px, " + (r.top - box.top) + "px)";
+    if (!box.width) return;                                                    // strip hidden: nothing to measure
+    var dot = $("weekDot"), to = "translate(" + (r.left - box.left) + "px, " + (r.top - box.top) + "px)";
+    if (!dot.style.transform) { dot.style.transition = "none"; dot.style.transform = to; void dot.offsetWidth; dot.style.transition = ""; return; }   // first placement: no slide in from the corner
+    dot.style.transform = to;
   }
   // re-measure whenever the strip changes size (scrollbar appearing, fonts loading, window resize)
   if (window.ResizeObserver) new ResizeObserver(function () { moveDot(); }).observe($("days"));
@@ -173,9 +251,15 @@
     if (!data) return;
     if (!DESK.matches && state.day > 6) state.day = 0; // phones only show one week
     var now = torontoNow(), n = mins(now), today = now.slice(0, 10), isToday = state.day === 0;
+    document.querySelector(".band").hidden = !live();   // dates only matter where there are live times (set before measuring the strip)
     renderDays(today);
     summary();
     syncTabs();
+    var title = live() ? "Drop-ins in Mississauga" : "Places to play near " + short(place.name);
+    $("dtitleTop").textContent = title; document.title = title + " · Drop-in Now";
+    if (DESK.matches) renderFilter();
+    if (!live()) { renderPlaces(); return; }
+    freshNote();
     var a = act(), o = origin();
     var list = data.events.filter(function (e) { return inWindow(e, now) && baseOk(e) && a.test(e); });
     list.forEach(function (e) { var c = centers[e.c]; e._km = o && c && c.lat != null ? km(o, c) : null; });
@@ -215,13 +299,16 @@
     $("when").innerHTML = state.day > 0 ? '<button type="button" aria-pressed="true" disabled>All day</button>' :
       seg([["soon", "Next 2 hours"], ["today", "Rest of today"]], state.when, "when");
     $("acts").innerHTML = ACTS.map(function (a) {
-      var count = a.id === "all" ? pool.length : pool.filter(a.test).length;
+      var count = !live() ? (places || []).filter(function (p) { return a.id === "all" || p.act === a.id; }).length   // places mode: count places
+        : a.id === "all" ? pool.length : pool.filter(a.test).length;
       if (!count && a.id !== "all" && a.id !== state.act) return "";
       return '<button type="button" class="chip" data-act="' + a.id + '" aria-pressed="' + (state.act === a.id) + '">' + esc(a.label) + '<span class="n">' + count + "</span></button>";
     }).join("");
     $("ages").innerHTML = seg(AGES.map(function (a) { return [a[0], a[1]]; }), state.age, "age");
     $("free").setAttribute("aria-checked", state.free);
     $("near").value = state.near === "me" && !here ? "" : state.near;
+    $("locNow").textContent = "Now showing: " + place.name + (live() ? " (live drop-in times)" : "");
+    $("near").parentNode.hidden = $("nearLabel").hidden = !live();
   }
   function seg(opts, cur, key) {
     return opts.map(function (o) { return '<button type="button" data-' + key + '="' + o[0] + '" aria-pressed="' + (cur === o[0]) + '">' + esc(o[1]) + "</button>"; }).join("");
@@ -417,6 +504,26 @@
   }
   placeFilters();
   DESK.addEventListener("change", function () { placeFilters(); render(); });
+  // location search (OpenStreetMap Nominatim, North America) and quick picks
+  $("locForm").addEventListener("submit", function (ev) {
+    ev.preventDefault();
+    var q = $("locInput").value.trim(); if (!q) return;
+    $("locNow").textContent = "Searching...";
+    fetch("https://nominatim.openstreetmap.org/search?format=json&limit=1&countrycodes=us,ca,mx&q=" + encodeURIComponent(q))
+      .then(function (r) { return r.json(); }).then(function (d) {
+        if (!d.length) { $("locNow").textContent = "Couldn't find that in North America. Try a city or ZIP code."; return; }
+        setPlace({ name: d[0].display_name.split(",").slice(0, 3).join(",").trim(), lat: +d[0].lat, lon: +d[0].lon });
+      }).catch(function () { $("locNow").textContent = "Search isn't available right now."; });
+  });
+  document.addEventListener("click", function (ev) {
+    var b = ev.target.closest("[data-loc]"); if (!b) return;
+    var k = b.dataset.loc;
+    if (k === "dc") setPlace(DEFAULT_PLACE);
+    else if (k === "mi") setPlace(MISSISSAUGA);
+    else if ("geolocation" in navigator) navigator.geolocation.getCurrentPosition(function (p) {
+      setPlace({ name: "Your location", lat: p.coords.latitude, lon: p.coords.longitude });
+    }, function () { $("locNow").textContent = "Couldn't get your location. Search for a place instead."; }, { timeout: 10000 });
+  });
 
   fetch("data/events.json").then(function (r) {
     if (!r.ok) throw new Error(r.status);
@@ -426,7 +533,6 @@
     d.centers.forEach(function (c) { centers[c.id] = c; });
     d.events.forEach(function (e, i) { e._k = i; byId[i] = e; });
     renderNear();
-    freshNote();
     render();
     setInterval(function () {
       var a = document.activeElement; // don't pull focus out from under a keyboard user

@@ -20,6 +20,11 @@ Every City of Mississauga drop-in (basketball, swim, skate, badminton, volleybal
 - Remembers your filters, so a repeat check takes one tap.
 - Works for anyone, anywhere: times are always shown in Mississauga time, even if the person viewing is in another time zone.
 
+## Anywhere in North America
+
+- The app opens on **Columbia Heights, Washington, DC**. Search any city, address or ZIP code in the US, Canada or Mexico, or use your location.
+- Where a city publishes its drop-in calendar (Mississauga today), you get live session times. Everywhere else you get the courts, pools, rinks and gyms around you from OpenStreetMap (via the Photon search API), with walking directions.
+
 ## Pages
 
 - `index.html`: the landing page. Its layout and motion copy whatsapp.com, with our own words and colours. Every time and place in its chat bubbles and "On right now" cards comes from the live data.
