@@ -69,7 +69,7 @@
   function origin() {
     if (state.near === "me") return here;
     var c = centers[state.near];
-    return c && c.lat != null ? { lat: c.lat, lon: c.lon } : (live() && place !== MISSISSAUGA ? place : null);
+    return c && c.lat != null ? { lat: c.lat, lon: c.lon } : (live() && place.name !== MISSISSAUGA.name ? place : null);   // a saved copy is not the same object
   }
 
   // ---------- location: anywhere in North America. Live drop-in times where a city publishes them (Mississauga today);
@@ -266,7 +266,7 @@
     if (o) list.sort(function (x, y) { return (x._km ?? 99) - (y._km ?? 99) || (x.s < y.s ? -1 : 1); });
 
     var nearLink = '<button type="button" class="near-link" id="nearLink">' + ARROW +
-      (o ? (state.near === "me" ? "Closest to you" : "Closest to " + esc(centers[state.near].name)) : "Happening near you") + CHEV + "</button>";
+      (state.near === "me" ? "Closest to you" : centers[state.near] ? "Closest to " + esc(centers[state.near].name) : o ? "Closest to " + esc(short(place.name)) : "Happening near you") + CHEV + "</button>";
     var html = "", idx = 0;
     if (isToday) {
       var nowList = list.filter(function (e) { return mins(e.s) <= n; });
