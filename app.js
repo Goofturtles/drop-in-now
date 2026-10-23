@@ -83,7 +83,7 @@
     return DEFAULT_PLACE;
   }
   function setPlace(p) {
-    place = p; places = null; state.near = "";
+    place = p; places = null; placesKey = ""; state.near = "";   // forget the last lookup, or re-picking the same place never loads
     try { localStorage.setItem("dropin_place", JSON.stringify(p)); } catch (e) { /* private mode */ }
     render(); if (DESK.matches || !$("filter").hidden) renderFilter();
   }
